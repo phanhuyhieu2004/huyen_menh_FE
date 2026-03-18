@@ -5,7 +5,7 @@
             <h2 class="text-xl font-serif text-accent-purple tracking-wider mb-2 drop-shadow-md">
                 Bản Đồ Sao (Natal Chart)
             </h2>
-            <p class="text-white/50 text-xs mb-4">Mặt Trời, Mặt Trăng & Cung Mọc</p>
+            <p class="text-white/50 text-xs mb-4">Mặt Trời & Vị Thế Mặt Trăng (lunarphase-js)</p>
 
             <div class="flex-1 flex items-center justify-center relative my-4">
                 <svg viewBox="0 0 200 200" class="w-full max-w-[250px] aspect-square overflow-visible">
@@ -33,15 +33,9 @@
                     </g>
 
 
-                    <g v-if="sunAngle" :transform="`translate(100, 100) rotate(${sunAngle + 120}) translate(0, -60)`">
-                        <circle cx="0" cy="0" r="10" fill="#9CA3AF" filter="url(#purple-glow)" />
-                        <text x="0" y="4" font-size="12" fill="#111" text-anchor="middle" font-weight="bold">☽</text>
-                    </g>
-
-
-                    <g v-if="sunAngle" :transform="`translate(100, 100) rotate(${sunAngle - 90})`">
-                        <line x1="0" y1="0" x2="0" y2="-90" stroke="#F472B6" stroke-width="2" stroke-dasharray="4" filter="url(#purple-glow)"/>
-                        <text x="0" y="-100" font-size="10" fill="#F472B6" text-anchor="middle" filter="url(#purple-glow)">ASC</text>
+                    <g v-if="moonAngle" :transform="`translate(100, 100) rotate(${moonAngle}) translate(0, -60)`">
+                        <circle cx="0" cy="0" r="12" fill="#E5E7EB" filter="url(#purple-glow)" />
+                        <text x="0" y="4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">{{ moonEmoji }}</text>
                     </g>
 
 
@@ -58,12 +52,14 @@
                     </span>
                 </div>
                 <div class="flex justify-between items-center border-b border-white/5 pb-2">
-                    <span class="text-white/50">Mặt Trăng (Cảm Xúc)</span>
-                    <span class="text-gray-300 font-bold">Sư Tử ♌</span>
+                    <span class="text-white/50">Pha Mặt Trăng (Thực Tế)</span>
+                    <span class="text-gray-300 font-bold flex items-center gap-2">
+                         {{ moonName }} {{ moonEmoji }}
+                    </span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-white/50">Cung Mọc (Vỏ Bọc)</span>
-                    <span class="text-pink-400 font-bold">Bọ Cạp ♏</span>
+                    <span class="text-white/50">Tuổi Trăng (Moon Age)</span>
+                    <span class="text-pink-400 font-bold">{{ moonAge }} ngày</span>
                 </div>
             </div>
 
@@ -75,21 +71,41 @@
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { getZodiacSign } from '@/utils/spiritualCalc';
+import { Moon } from 'lunarphase-js';
 
 const authStore = useAuthStore();
 
 const zodiacInfo = computed(() => {
-    if (!authStore.user?.dateOfBirth) return { name: "Bí ẩn" };
+    if (!authStore.user?.dateOfBirth) return { name: "Bí ẩn", icon: "✨" };
     const dob = new Date(authStore.user.dateOfBirth);
     return getZodiacSign(dob.getDate(), dob.getMonth() + 1);
 });
-
 
 const sunAngle = computed(() => {
     if (!authStore.user?.dateOfBirth) return 0;
     const dob = new Date(authStore.user.dateOfBirth);
     const dayOfYear = Math.floor((dob - new Date(dob.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
     return (dayOfYear / 365) * 360;
+});
+
+
+const moonData = computed(() => {
+    const today = new Date();
+    return {
+        phase: Moon.lunarPhase(today),
+        emoji: Moon.lunarPhaseEmoji(today),
+        age: Math.round(Moon.lunarAge(today) * 10) / 10
+    };
+});
+
+const moonEmoji = computed(() => moonData.value.emoji);
+const moonName = computed(() => moonData.value.phase);
+const moonAge = computed(() => moonData.value.age);
+
+const moonAngle = computed(() => {
+    // lunarphase-js phase age 0-29.53
+    const phasePercent = Moon.lunarAge(new Date()) / 29.530588853;
+    return sunAngle.value + (phasePercent * 360);
 });
 </script>
 

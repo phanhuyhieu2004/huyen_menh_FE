@@ -131,5 +131,24 @@ export function getDailyHexagram(dobDateStr) {
     }
 
 
+
     return hexagrams[Math.floor(Math.random() * hexagrams.length)];
+}
+
+export function optimizeCloudinaryUrl(url, options = {}) {
+    if (!url || !url.includes('cloudinary.com')) return url;
+
+    const params = ['f_auto', 'q_auto'];
+
+    if (options.width) params.push(`w_${options.width}`);
+    if (options.height) params.push(`h_${options.height}`);
+    if (options.crop) params.push(`c_${options.crop}`);
+
+    const paramString = params.join(',');
+
+    if (url.includes('/upload/')) {
+        return url.replace('/upload/', `/upload/${paramString}/`);
+    }
+
+    return url;
 }

@@ -61,7 +61,6 @@
                         </div>
                     </div>
 
-
                     <div class="flex flex-col gap-3">
                         <a href="https://spirituality-be-production.up.railway.app/oauth2/authorization/google" class="flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-white/10 to-white/5 border border-gold/30 rounded-xl hover:border-gold hover:shadow-[0_0_15px_rgba(255,184,0,0.3)] transition-all duration-300 group">
                             <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
@@ -91,23 +90,29 @@
 
             <div class="hidden md:block w-1/2 relative overflow-hidden transition-all duration-700 bg-transparent" :class="isRegisterMode ? 'border-r border-gold/30' : 'border-l border-gold/30'">
 
-                <transition name="fade" mode="out-in">
+                <!-- Loading Skeleton / Spinner (Shown below image while it loads) -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 z-0">
+                    <i class="fi fi-rr-spinner animate-spin text-4xl text-gold/40 mb-4 drop-shadow-[0_0_10px_rgba(255,184,0,0.5)]"></i>
+                    <p class="text-[10px] text-gold/50 uppercase tracking-[0.3em] font-serif animate-pulse">Lưu Chuyển Không Gian...</p>
+                </div>
+
+                <!-- Actual Images with Lazy Load & Fade In (z-10 to stay above spinner) -->
+                <transition name="fade" mode="out-in" @before-enter="isImageLoaded = false">
                     <img
-                        v-if="!isRegisterMode"
-                        src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772092737/ChatGPT_Image_14_54_35_26_thg_2_2026_sga1vy.png"
-                        alt="Login Mystic Gateway"
-                        class="absolute inset-0 w-full h-full object-cover"
-                    />
-                    <img
-                        v-else
-                        src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772092739/ChatGPT_Image_14_56_28_26_thg_2_2026_kkhhqr.png"
-                        alt="Register Mystic Gateway"
-                        class="absolute inset-0 w-full h-full object-cover"
+                        :key="isRegisterMode ? 'register-img' : 'login-img'"
+                        :src="isRegisterMode ? 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772092739/ChatGPT_Image_14_56_28_26_thg_2_2026_kkhhqr.png' : 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772092737/ChatGPT_Image_14_54_35_26_thg_2_2026_sga1vy.png'"
+                        :alt="isRegisterMode ? 'Register Mystic Gateway' : 'Login Mystic Gateway'"
+                        @load="isImageLoaded = true"
+                        :class="[
+                            'absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-1000',
+                            isImageLoaded ? 'opacity-100' : 'opacity-0'
+                        ]"
+                        loading="lazy"
                     />
                 </transition>
 
-
-                <div class="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.9)] pointer-events-none"></div>
+                <!-- Dramatic Vignette Overlay -->
+                <div class="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,1)] pointer-events-none z-20"></div>
             </div>
 
         </div>
@@ -138,9 +143,28 @@ const form = reactive({
 });
 
 const isLoading = ref(false);
+const isImageLoaded = ref(false);
+
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
+onMounted(() => {
+    // Đợi một chút để Router và UI ổn định trước khi hiện Toast
+    setTimeout(() => {
+        if (route.query.error === 'account_locked') {
+            toast.error('Tài khoản của bạn đã bị khóa bởi vũ trụ. Vui lòng liên hệ quản trị viên.');
+            router.replace({ query: {} });
+        } else if (route.query.error) {
+            toast.error('Tài khoản của bạn đã bị khóa bởi vũ trụ. Vui lòng liên hệ quản trị viên.');
+            router.replace({ query: {} });
+        }
+    }, 300);
+});
 
 const toggleMode = () => {
     isRegisterMode.value = !isRegisterMode.value;
+    isImageLoaded.value = false;
     form.email = '';
     form.password = '';
     form.confirmPassword = '';
@@ -161,7 +185,7 @@ const validatePassword = () => {
     if (isRegisterMode.value) {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
         if (!passwordRegex.test(form.password)) {
-            toast.error('Mật khẩu cần tối thiểu 8 ký tự, 1 chữ hoa, 1 số, 1 ký tự đặc biệt');
+            toast.error('Mật khẩu cần tối thiểu 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt');
             return false;
         }
     }
@@ -224,9 +248,16 @@ const handleLogin = async () => {
             }
         }
     } catch (error) {
-
+        const errorMsg = error.response?.data || error.message || 'Lỗi kết nối máy chủ';
+        toast.error(errorMsg);
     } finally {
         uiStore.setGlobalLoading(false);
     }
+};
+
+const handleGoogleLogin = () => {
+    // Lưu origin hiện tại vào cookie để Backend biết đường redirect về đúng cổng
+    document.cookie = `client_origin=${window.location.origin}; path=/; max-age=3600; SameSite=Lax`;
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
 };
 </script>

@@ -2,8 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { useUiStore } from '@/stores/ui';
 
-
-
 const AuthLayout = () => import('@/layouts/AuthLayout.vue');
 const MainLayout = () => import('@/layouts/MainLayout.vue');
 
@@ -13,7 +11,6 @@ const OAuth2RedirectHandler = () => import('@/views/OAuth2RedirectHandler.vue');
 const OnboardingPage = () => import('@/views/OnboardingPage.vue');
 const ForgotPasswordPage = () => import('@/views/ForgotPasswordPage.vue');
 const ResetPasswordPage = () => import('@/views/ResetPasswordPage.vue');
-
 const DashboardPage = () => import('@/views/DashboardPage.vue');
 
 const routes = [
@@ -73,7 +70,6 @@ const router = createRouter({
     routes
 });
 
-
 router.beforeEach((to, from, next) => {
     const uiStore = useUiStore();
     uiStore.setGlobalLoading(true);
@@ -92,8 +88,6 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
     const uiStore = useUiStore();
-
-
 
     if (to.name === 'OAuth2Redirect') {
         return;

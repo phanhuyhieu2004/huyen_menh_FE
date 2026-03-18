@@ -114,6 +114,12 @@ const handleResetPassword = async () => {
     return;
   }
 
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+  if (!passwordRegex.test(newPassword.value)) {
+    toast.error('Mật khẩu cần tối thiểu 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt');
+    return;
+  }
+
   loading.value = true;
   try {
     await api.post('/auth/reset-password', {

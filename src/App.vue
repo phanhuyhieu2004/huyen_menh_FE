@@ -1,23 +1,50 @@
 <template>
   <div class="app-root min-h-screen bg-black text-white font-sans relative overflow-x-hidden">
 
-        <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden flex justify-center items-center">
-            <div class="w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] relative">
-                <iframe src="https://player.cloudinary.com/embed/?cloud_name=drac9ko3l&public_id=video_nebula_full_yxicgk&profile=cld-looping&autoplay=true&loop=true&muted=true" width="100%" height="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; pointer-events: none;" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-            </div>
+        <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+            <video 
+                ref="bgVideo"
+                autoplay 
+                loop 
+                muted 
+                playsinline="true"
+                webkit-playsinline="true"
+                preload="auto"
+                disablePictureInPicture="true"
+                disableRemotePlayback="true"
+                controls="false"
+                @canplay="playVideo"
+                @ended="playVideo"
+                class="absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000"
+            >
+                <source src="https://res.cloudinary.com/drac9ko3l/video/upload/v1772078973/video_nebula_full_yxicgk.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ video nền.
+            </video>
         </div>
 
 
         <div class="fixed inset-0 bg-black/40 z-0 pointer-events-none"></div>
 
 
-        <div class="relative z-10 min-h-screen">
-          <router-view v-slot="{ Component }">
-            <transition name="page" mode="out-in">
-              <component :is="Component" />
-            </transition>
-          </router-view>
+        <div class="relative z-10 min-h-screen flex flex-col">
+          <div class="flex-1">
+            <router-view v-slot="{ Component }">
+              <transition name="page" mode="out-in">
+                <component :is="Component" />
+              </transition>
+            </router-view>
+          </div>
+          
+          <!-- Conditional Global Footer -->
+          <GlobalFooter v-if="showFooter" @open-legal="handleOpenLegal" />
         </div>
+
+        <!-- Global Legal Modal -->
+        <LegalModal 
+          :is-open="isLegalModalOpen" 
+          :initial-tab="legalModalTab"
+          @close="isLegalModalOpen = false" 
+        />
 
 
         <transition name="fade">
@@ -43,17 +70,57 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { useUiStore } from '@/stores/ui';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import GlobalFooter from '@/components/layout/GlobalFooter.vue';
+import LegalModal from '@/components/common/LegalModal.vue';
 
+const route = useRoute();
 const uiStore = useUiStore();
 const authStore = useAuthStore();
 const { isGlobalLoading } = storeToRefs(uiStore);
 
-onMounted(async () => {
+const isLegalModalOpen = ref(false);
+const legalModalTab = ref('privacy');
+const bgVideo = ref(null);
 
+const handleOpenLegal = (tab) => {
+    legalModalTab.value = tab;
+    isLegalModalOpen.value = true;
+};
+
+const playVideo = () => {
+    if (bgVideo.value) {
+        bgVideo.value.play().catch(error => {
+            console.warn("Autoplay was prevented on mobile/safari:", error);
+        });
+    }
+};
+
+const handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+        playVideo();
+    }
+};
+
+onMounted(() => {
+    playVideo();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+});
+
+const showFooter = computed(() => {
+    const hiddenRoutes = ['Login', 'Onboarding', 'ForgotPassword', 'ResetPassword', 'OAuth2Redirect'];
+    return !hiddenRoutes.includes(route.name);
+});
+
+onMounted(async () => {
     if (authStore.token) {
         await authStore.checkAuth();
     }

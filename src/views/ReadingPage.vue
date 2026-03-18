@@ -3,17 +3,19 @@
 
 
     <div class="text-center mb-10 animate-fade-in relative z-10">
-        <h2 class="text-2xl md:text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark tracking-widest glowing-text-gold uppercase">
+        <h2 class="text-lg md:text-xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark tracking-[0.4em] glowing-text-gold uppercase">
             XEM QUẺ MỆNH
         </h2>
-        <div class="h-1 w-24 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-4 drop-shadow-[0_0_8px_rgba(255,184,0,0.8)]"></div>
+        <div class="h-[1px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-3 shadow-[0_0_15px_rgba(255,184,0,1)]"></div>
     </div>
 
 
     <canvas id="fireworksCanvas" class="fixed inset-0 pointer-events-none z-[60] w-full h-full"></canvas>
 
 
+
     <div class="w-full max-w-2xl mb-12 animate-slide-up-fade relative z-10">
+
         <div class="relative group">
             <input
                 v-model="question"
@@ -46,98 +48,123 @@
     </div>
 
 
-    <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 px-4 relative">
-
-
-        <div class="flex flex-col items-center relative">
-            <div class="mb-6 flex flex-col items-center">
-                <h3 class="text-2xl font-serif text-gold-light tracking-widest uppercase mb-1 drop-shadow-[0_0_5px_rgba(255,184,0,0.5)]">Thông điệp Tarot</h3>
-                <div class="w-24 h-[1px] bg-gold/40"></div>
-            </div>
-
-            <div class="relative w-64 h-96 flex items-center justify-center">
-                <div
-                    class="card-container perspective w-full h-full transition-all duration-1000"
-                    :class="{
-                        'is-flipped': result && !isSpinning,
-                        'is-spinning': isSpinning
-                    }"
-                >
-                    <div class="card-inner">
-
-                        <div v-if="!result || isSpinning" class="card-front bg-black/40 border-2 border-gold/40 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772453096/image_Pippit_202603021904_1_yfjtoh.png" alt="Tarot Back" class="w-full h-full object-cover" loading="lazy">
-                        </div>
-
-                        <div class="card-back bg-black/60 border-4 border-gold rounded-xl overflow-hidden shadow-[0_0_30px_rgba(255,184,0,0.4)]">
-                            <img :src="result?.tarotImage" class="w-full h-full object-cover" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-8 text-center" v-if="result && !isSpinning">
-                 <h4 class="text-gold font-serif text-xl tracking-widest uppercase mb-2">{{ result?.tarotName }}</h4>
-            </div>
+    <!-- RESULTS SECTION - SACRED CONNECTION LAYOUT -->
+    <div class="w-full max-w-7xl relative mb-24 min-h-[600px] flex flex-col items-center justify-center overflow-visible">
+        
+        <!-- Elegant Divider Layer -->
+        <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+            <!-- Vertical Divider Beam -->
+            <div class="h-[400px] w-[1px] bg-gradient-to-b from-transparent via-gold/40 to-transparent shadow-[0_0_20px_rgba(255,215,106,0.3)]"></div>
         </div>
 
+        <!-- MAIN COMPONENTS: TAROT - MANDALA(BG) - ICHING -->
+        <div class="w-full flex flex-col lg:flex-row justify-between items-center z-10">
+            
+            <!-- LEFT: TAROT -->
+            <div class="flex flex-col items-center w-full lg:w-[45%] relative mt-6 lg:mt-0 mb-12 lg:mb-0">
+                <!-- Content Wrapper that dictates the size of the Border Frame -->
+                <div class="relative w-full flex flex-col items-center pt-20 pb-28 px-4 z-10">
+                    <!-- The Sacred glowing Border Frame (Now wraps the ENTIRE content vertically) -->
+                    <div class="absolute inset-x-0 inset-y-0 border-2 border-gold/50 rounded-2xl pointer-events-none shadow-[0_0_20px_rgba(255,184,0,0.5),inset_0_0_30px_rgba(255,184,0,0.2)] z-0"></div>
 
-        <div class="hidden md:block absolute left-1/2 bottom-0 top-32 -translate-x-1/2 w-[2px] bg-gradient-to-b from-transparent via-gold/60 to-transparent shadow-[0_0_10px_rgba(255,184,0,0.3)]"></div>
+                    <!-- Floating Heading overlapping top border exactly in middle -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-[#0a0515]/90 backdrop-blur-md px-8 py-2.5 rounded-full border border-gold/70 shadow-[0_0_20px_rgba(255,184,0,0.5)] text-center whitespace-nowrap animate-fade-in" style="animation-delay: 0.5s">
+                        <h3 class="text-xs md:text-sm font-serif text-gold-light tracking-[0.25em] uppercase m-0 font-bold">Thông Điệp Tarot</h3>
+                    </div>
 
-
-        <div class="flex flex-col items-center relative">
-            <div class="mb-6 flex flex-col items-center">
-                <h3 class="text-2xl font-serif text-gold-light tracking-widest uppercase mb-1 drop-shadow-[0_0_5px_rgba(255,184,0,0.5)]">Trí tuệ Kinh Dịch</h3>
-                <div class="w-24 h-[1px] bg-gold/40"></div>
-            </div>
-
-            <div class="relative w-64 h-96 flex items-center justify-center">
-                <div
-                    class="card-container perspective w-full h-full transition-all duration-1000"
-                    :class="{
-                        'is-flipped': result && !isSpinning,
-                        'is-spinning': isSpinning
-                    }"
-                >
-                    <div class="card-inner">
-
-                        <div v-if="!result || isSpinning" class="card-front bg-black/40 border-2 border-gold/40 rounded-xl flex items-center justify-center p-0 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078974/ChatGPT_Image_15_14_00_13_thg_2_2026_s7ufpx.png" class="w-48 h-48 opacity-80 object-cover" alt="I-Ching Back" loading="lazy">
-                        </div>
-
-                        <div class="card-back bg-black/60 border-4 border-gold rounded-xl flex flex-col items-center justify-center p-6 shadow-[0_0_30px_rgba(255,184,0,0.4)]">
-                            <div v-if="result" class="flex flex-col items-center text-center w-full">
-
-                                <div class="hexagram-drawing flex flex-col-reverse gap-3 mb-6 w-full max-w-[120px]">
-                                    <div
-                                        v-for="(line, index) in result.hexBinary.split('')"
-                                        :key="index"
-                                        class="hex-line h-3 w-full"
-                                    >
-                                        <div v-if="line === '1'" class="w-full h-full bg-gold shadow-[0_0_10px_rgba(255,184,0,0.5)] rounded-sm"></div>
-                                        <div v-else class="w-full h-full flex justify-between">
-                                            <div class="w-[42%] h-full bg-gold shadow-[0_0_10px_rgba(255,184,0,0.5)] rounded-sm"></div>
-                                            <div class="w-[42%] h-full bg-gold shadow-[0_0_10px_rgba(255,184,0,0.5)] rounded-sm"></div>
-                                        </div>
-                                    </div>
+                    <!-- Tarot Card Container (z-30 to prevent 3D culling from beams) -->
+                    <div class="relative w-64 h-96 z-30 flex flex-col items-center">
+                        <div class="card-container perspective w-full h-full transition-all duration-1000 relative"
+                            :class="{'is-flipped': result && !isSpinning, 'is-spinning': isSpinning}">
+                            <div class="card-inner transform hover:-translate-y-4 transition-transform duration-500">
+                                <div v-if="!result || isSpinning" class="card-front bg-black/60 border border-gold/40 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
+                                    <SpiritualImage src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772944503/image_Pippit_202603081134_svj3ib.png" alt="Tarot Back" />
                                 </div>
-
-                                <div class="relative mb-3">
-                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold via-yellow-400 to-amber-600 flex items-center justify-center text-white font-serif font-black text-lg shadow-[0_0_10px_rgba(255,184,0,0.4)] border-2 border-white/20">
-                                        {{ result?.hexNumber }}
-                                    </div>
+                                <div class="card-back bg-black/80 border-2 border-gold-light/80 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_0_60px_rgba(255,184,0,0.6)]">
+                                    <SpiritualImage v-if="result" :src="optimizeCloudinaryUrl(result.tarotImage, { width: 500 })" :alt="result.tarotName" />
                                 </div>
-
-                                <div class="text-white text-xl font-serif font-bold tracking-widest uppercase">{{ result?.hexName }}</div>
-                                <div class="h-[1px] w-14 bg-gold/40 mt-3"></div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- The Magic Circle Pedestal (Background - Embedded in frame, overlaps bottom border) -->
+                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[20%] w-[120%] max-w-[600px] pointer-events-none z-20 flex items-center justify-center">
+
+                       <!-- The Magic Circle Image -->
+                       <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1773763531/ChatGPT_Image_23_05_07_17_thg_3_2026_nqj9q2.png" 
+                            class="w-full h-auto object-contain filter drop-shadow-[0_15px_15px_rgba(255,184,0,0.2)] relative z-20" 
+                            alt="Tarot Magic Circle"  />
+                       <!-- Glowing Core -->
+                       <div class="absolute inset-0 top-1/2 -translate-y-1/2 bg-gold/15 blur-[35px] rounded-[100%] scale-x-75 scale-y-50 z-30"></div>
+                    </div>
+                </div>
+
+                <!-- Footer Name overlapping bottom border exactly -->
+                <div class="absolute bottom-[-10px] left-1/2 -translate-x-1/2 translate-y-full z-30 w-fit whitespace-nowrap px-4" v-if="result && !isSpinning">
+                    <h4 class="text-gold font-serif text-[15px] md:text-lg tracking-[0.2em] uppercase drop-shadow-[0_0_10px_rgba(255,184,0,0.8)] bg-[#0a0515]/90 px-8 py-2.5 rounded-full border border-gold/60 backdrop-blur-md shadow-[0_4px_25px_rgba(255,184,0,0.5)] m-0 font-bold">{{ result?.tarotName }}</h4>
                 </div>
             </div>
 
-            <div class="mt-8 text-center" v-if="result && !isSpinning">
-                 <h4 class="text-gold font-serif text-xl tracking-widest uppercase mb-2">{{ result?.hexName }}</h4>
+            <!-- CENTER SPACER FOR MANDALA (EMPTY IN HTML STRUCTURE) -->
+            <div class="hidden lg:block w-[10%]"></div>
+
+            <!-- RIGHT: I-CHING -->
+            <div class="flex flex-col items-center w-full lg:w-[45%] relative mt-12 lg:mt-0">
+                <!-- Content Wrapper that dictates the size of the Border Frame -->
+                <div class="relative w-full flex flex-col items-center pt-20 pb-28 px-4 z-10">
+                    <!-- The Sacred glowing Border Frame (Now wraps the ENTIRE content vertically) -->
+                    <div class="absolute inset-x-0 inset-y-0 border-2 border-gold/50 rounded-2xl pointer-events-none shadow-[0_0_20px_rgba(255,184,0,0.5),inset_0_0_30px_rgba(255,184,0,0.2)] z-0"></div>
+
+                    <!-- Floating Heading overlapping top border exactly in middle -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-[#0a0515]/90 backdrop-blur-md px-8 py-2.5 rounded-full border border-gold/70 shadow-[0_0_20px_rgba(255,184,0,0.5)] text-center whitespace-nowrap animate-fade-in" style="animation-delay: 0.8s">
+                        <h3 class="text-xs md:text-sm font-serif text-gold-light tracking-[0.25em] uppercase m-0 font-bold">Trí Tuệ Kinh Dịch</h3>
+                    </div>
+
+                    <!-- I-Ching Card Container (z-30 to prevent 3D culling from beams) -->
+                    <div class="relative w-64 h-96 z-30 flex flex-col items-center">
+                        <div class="card-container perspective w-full h-full transition-all duration-1000 relative"
+                            :class="{'is-flipped': result && !isSpinning, 'is-spinning': isSpinning}">
+                            <div class="card-inner transform hover:-translate-y-4 transition-transform duration-500">
+                                <div v-if="!result || isSpinning" class="card-front bg-black/60 border border-gold/40 rounded-2xl flex items-center justify-center p-0 overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
+                                    <SpiritualImage src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078974/ChatGPT_Image_15_14_00_13_thg_2_2026_s7ufpx.png" alt="I-Ching Back" />
+                                </div>
+                                <div class="card-back bg-black/80 border-2 border-gold-light/80 rounded-2xl flex flex-col items-center justify-center p-8 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_0_60px_rgba(255,184,0,0.6)]">
+                                    <div v-if="result" class="flex flex-col items-center text-center w-full">
+                                        <div class="hexagram-drawing flex flex-col-reverse gap-2 mb-8 w-full max-w-[100px]">
+                                            <div v-for="(line, index) in (result?.hexBinary || '111111').split('')" 
+                                                 :key="index" 
+                                                 class="hex-line h-2.5 w-full animate-draw-hex-line"
+                                                 :style="{ animationDelay: (index * 0.3 + 1) + 's' }">
+                                                <div v-if="line === '1'" class="w-full h-full bg-gold shadow-[0_0_20px_rgba(255,184,0,0.8)] rounded-sm border border-gold-light/30"></div>
+                                                <div v-else class="w-full h-full flex justify-between">
+                                                    <div class="w-[45%] h-full bg-gold shadow-[0_0_20px_rgba(255,184,0,0.8)] rounded-sm border border-gold-light/30"></div>
+                                                    <div class="w-[45%] h-full bg-gold shadow-[0_0_20px_rgba(255,184,0,0.8)] rounded-sm border border-gold-light/30"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-white text-base font-serif font-bold tracking-[0.4em] uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] animate-fade-in" style="animation-delay: 3.5s">{{ result?.hexName }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The Magic Circle Pedestal (Background - Embedded in frame, overlaps bottom border) -->
+                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[23%] w-[120%] max-w-[600px] pointer-events-none z-20 flex items-center justify-center">
+
+                       <!-- The Magic Circle Image -->
+                       <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1773763532/ChatGPT_Image_23_01_28_17_thg_3_2026_ruqstw.png" 
+                            class="w-full h-auto object-contain filter drop-shadow-[0_15px_15px_rgba(255,184,0,0.2)] relative z-20" 
+                            alt="I-Ching Magic Circle"  />
+                       <!-- Glowing Core -->
+                       <div class="absolute inset-0 top-1/2 -translate-y-1/2 bg-gold/15 blur-[35px] rounded-[100%] scale-x-75 scale-y-50 z-30"></div>
+                    </div>
+                </div>
+                
+                <!-- Footer Name overlapping bottom border exactly -->
+                <div class="absolute bottom-[-10px] left-1/2 -translate-x-1/2 translate-y-full z-30 w-fit whitespace-nowrap px-4" v-if="result && !isSpinning">
+                    <h4 class="text-gold font-serif text-[15px] md:text-lg tracking-[0.2em] uppercase drop-shadow-[0_0_10px_rgba(255,184,0,0.8)] bg-[#0a0515]/90 px-8 py-2.5 rounded-full border border-gold/60 backdrop-blur-md shadow-[0_4px_25px_rgba(255,184,0,0.5)] m-0 font-bold">{{ result?.hexName }}</h4>
+                </div>
             </div>
         </div>
     </div>
@@ -161,6 +188,11 @@
 
 
             <div class="p-8 md:p-12 min-h-[300px] prose prose-invert max-w-none">
+                <div v-show="activeTab === 'ai'" class="animate-fade-in">
+                    <div class="ai-typing-container">
+                        <p class="text-gold-light leading-relaxed font-serif text-lg italic whitespace-pre-line">{{ typedAiInsight }}<span v-if="isTyping" class="cursor">|</span></p>
+                    </div>
+                </div>
                 <div v-show="activeTab === 'tarot'" class="animate-fade-in">
                     <h5 class="text-gold font-serif text-xl mb-4 uppercase tracking-widest">Chi tiết lá bài "{{ result?.tarotName }}"</h5>
                     <p class="text-white/90 leading-relaxed font-sans">{{ result?.tarotMeaning }}</p>
@@ -168,11 +200,6 @@
                 <div v-show="activeTab === 'iching'" class="animate-fade-in">
                     <h5 class="text-gold font-serif text-xl mb-4 uppercase tracking-widest">Chi tiết quẻ dịch "{{ result?.hexName }}"</h5>
                     <p class="text-white/90 leading-relaxed font-sans">{{ result?.hexMeaning }}</p>
-                </div>
-                <div v-show="activeTab === 'ai'" class="animate-fade-in">
-                    <div class="ai-typing-container">
-                        <p class="text-gold-light leading-relaxed font-serif text-lg italic whitespace-pre-line">{{ typedAiInsight }}<span v-if="isTyping" class="cursor">|</span></p>
-                    </div>
                 </div>
             </div>
 
@@ -204,8 +231,10 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import api from '@/services/api';
 import { cosmicToast as toast } from '@/utils/toast';
-
+import { optimizeCloudinaryUrl } from '@/utils/spiritualCalc';
+import SpiritualImage from '@/components/common/SpiritualImage.vue';
 const question = ref('');
+const selectedMood = ref('inspired');
 const isLoading = ref(false);
 const result = ref(null);
 const activeTab = ref('ai');
@@ -330,7 +359,24 @@ onUnmounted(() => {
 });
 
 
+const validateQuestion = (q) => {
+    if (!q || !q.trim()) return { valid: false, msg: 'Xin hãy nhập câu hỏi của bạn tâm giao.' };
+    const trimmed = q.trim();
+    if (trimmed.length < 10) return { valid: false, msg: 'Lời thỉnh cầu quá ngắn. Hãy diễn đạt rõ ràng hơn để vũ trụ thấu hiểu (tối thiểu 10 ký tự).' };
+    
+    // Kiểm tra lặp ký tự vô nghĩa (Vd: aaaaa, kkkk)
+    const uniqueChars = new Set(trimmed.toLowerCase().replace(/\s/g, '').split('')).size;
+    if (uniqueChars < 3 && trimmed.length > 5) return { valid: false, msg: 'Lời thỉnh cầu dường như chưa mang tâm ý thực sự. Hãy nhập câu hỏi rõ ràng hơn.' };
+    
+    return { valid: true };
+};
+
 const handleDraw = async () => {
+    const check = validateQuestion(question.value);
+    if (!check.valid) {
+        toast.error(check.msg);
+        return;
+    }
     if (isLoading.value) return;
 
     isLoading.value = true;
@@ -342,7 +388,11 @@ const handleDraw = async () => {
 
     try {
         const response = await api.post('/reading/draw', { question: question.value });
-
+        
+        console.log('--- [DEBUG: READING REQUEST SENT] ---');
+        console.log('Question:', question.value);
+        console.log('AI Response Data:', response.data);
+        console.log('--------------------------------------');
 
         setTimeout(() => {
             isSpinning.value = false;
@@ -356,7 +406,7 @@ const handleDraw = async () => {
             startTyping(response.data.aiInterpretation);
             toast.success('Vũ trụ đã hồi đáp lời thỉnh cầu của bạn.');
             isLoading.value = false;
-        }, 3000);
+        }, 1500); // Giảm từ 3000 xuống 1500ms
 
     } catch (error) {
         console.error('Lỗi khi rút thẻ:', error);
@@ -395,7 +445,8 @@ const saveToJournal = async () => {
             question: question.value,
             tarotId: result.value.tarotId,
             hexId: result.value.hexId,
-            aiInterpretation: result.value.aiInterpretation
+            aiInterpretation: result.value.aiInterpretation,
+            mood: 'inspired'
         });
         hasSaved.value = true;
         toast.success('Hành trình tâm linh đã được ghi lại!');
@@ -410,9 +461,9 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
 
 <style scoped>
 .reading-page {
-
     background: radial-gradient(circle at center, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
 }
+
 
 .gieo-que-btn-super {
     position: relative;
@@ -456,10 +507,6 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
     animation: gradient-slow 4s ease infinite;
 }
 
-.group-hover\:animate-shine {
-
-}
-
 .group:hover .group-hover\:animate-shine {
     animation: shine 2s infinite;
 }
@@ -486,9 +533,8 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
     background-color: rgba(255, 184, 0, 0.05);
 }
 
-
 .perspective {
-    perspective: 1000px;
+    perspective: 1200px;
 }
 
 .card-container {
@@ -496,20 +542,22 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes spin-infinite {
-    0% { transform: rotateY(0deg); }
-    100% { transform: rotateY(360deg); }
+    0% { transform: rotateY(0deg) scale(0.9); }
+    50% { transform: rotateY(180deg) scale(1.05); }
+    100% { transform: rotateY(360deg) scale(0.9); }
 }
 
 .is-spinning {
-    animation: spin-infinite 0.8s linear infinite;
+    animation: spin-infinite 0.4s linear infinite;
 }
 
 .is-flipped {
-    transform: rotateY(180deg) !important;
+    transform: rotateY(180deg) scale(1.05) !important;
+    box-shadow: 0 0 40px rgba(255, 184, 0, 0.3);
 }
 
 .card-inner {
@@ -524,13 +572,14 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
+    border-radius: 1rem;
 }
 
 .card-back {
     transform: rotateY(180deg);
 }
 
-
+/* Hiệu ứng Pháo hoa */
 .firework {
     position: absolute;
     width: 6px;
@@ -546,7 +595,6 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
     100% { transform: scale(3); opacity: 0; }
 }
 
-
 @keyframes text-pulse {
   from { text-shadow: 0 0 10px rgba(255,184,0,0.4); }
   to { text-shadow: 0 0 20px rgba(255,184,0,1), 0 0 40px rgba(255,255,255,0.4); }
@@ -559,6 +607,29 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
 @keyframes pulse {
     0%, 100% { opacity: 0.1; }
     50% { opacity: 0.3; }
+}
+
+/* SACRED ENERGY LINKS & HEX DRAWING */
+.energy-path-bg {
+    filter: blur(2px);
+}
+
+.energy-p {
+    filter: blur(1.5px) drop-shadow(0 0 8px gold);
+    opacity: 0.9;
+}
+
+.animate-draw-hex-line {
+    opacity: 0;
+    transform: scaleX(0);
+    animation: build-hex-line 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes build-hex-line {
+    to { 
+        opacity: 1; 
+        transform: scaleX(1); 
+    }
 }
 
 .animate-fade-in {
@@ -587,6 +658,23 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
   animation: spin-extremely-slow 60s linear infinite;
 }
 
+/* COSMIC DUST */
+.dust-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px white;
+    animation: drift linear infinite;
+}
+
+@keyframes drift {
+    0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+    50% { transform: translate(50px, -50px) scale(1.2); opacity: 0.8; }
+    100% { transform: translate(100px, -100px) scale(0.5); opacity: 0; }
+}
+
 .cursor {
     animation: blink 1s step-end infinite;
 }
@@ -596,7 +684,6 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
     50% { opacity: 0; }
 }
 
-
 .prose h5 {
     color: #FFB800;
     font-family: serif;
@@ -605,5 +692,20 @@ const share = () => { toast.info('Hệ thống đang chuẩn bị bản chia s�
     border-left-width: 4px;
     border-color: #FFB800;
     padding-left: 1rem;
+}
+
+/* Gold Glow cho quẻ dịch */
+.hex-line .bg-gold {
+    transition: all 0.5s ease;
+}
+
+.result-ready .hex-line .bg-gold {
+    box-shadow: 0 0 25px rgba(255, 184, 0, 0.8);
+    animation: pulsate-gold 2s infinite alternate;
+}
+
+@keyframes pulsate-gold {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.5) drop-shadow(0 0 10px gold); }
 }
 </style>

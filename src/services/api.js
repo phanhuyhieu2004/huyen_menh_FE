@@ -6,7 +6,7 @@ import { cosmicToast as toast } from '@/utils/toast';
 const currentTimezone = moment.tz.guess();
 
 const api = axios.create({
-    baseURL: 'https://spirituality-be-production.up.railway.app/api',
+    baseURL: 'http://localhost:8080/api',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -22,8 +22,11 @@ api.interceptors.request.use(
         );
 
 
-        if (token && !isAuthEndpoint) {
+        if (token && token !== 'undefined' && token !== 'null' && !isAuthEndpoint) {
             config.headers.Authorization = `Bearer ${token}`;
+            console.log("API DEBUG: Gửi request tới " + config.url + " với Token.");
+        } else {
+            console.log("API DEBUG: Gửi request tới " + config.url + " KHÔNG có Token.");
         }
 
 

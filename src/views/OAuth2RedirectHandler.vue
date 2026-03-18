@@ -19,12 +19,16 @@ onMounted(async () => {
     uiStore.setGlobalLoading(true);
 
     if (token) {
+        console.log("OAUTH2 DEBUG: Nhận token từ URL:", token);
         try {
             authStore.setToken(token);
-            await new Promise(resolve => setTimeout(resolve, 200));
-            await authStore.fetchUser();
+            console.log("OAUTH2 DEBUG: Đã set token vào store, bắt đầu fetchUser...");
+            await new Promise(resolve => setTimeout(resolve, 300));
+            const success = await authStore.fetchUser();
+            console.log("OAUTH2 DEBUG: Kết quả fetchUser:", success);
 
             const hasOnboarded = localStorage.getItem('hasOnboarded') === 'true';
+            console.log("OAUTH2 DEBUG: Trạng thái Onboarded:", hasOnboarded);
 
             if (!hasOnboarded) {
                 await router.push('/onboarding');
@@ -32,6 +36,7 @@ onMounted(async () => {
                 await router.push('/app');
             }
         } catch (error) {
+            console.error("OAUTH2 ERROR:", error);
             uiStore.setGlobalLoading(false);
             router.push('/login');
         }

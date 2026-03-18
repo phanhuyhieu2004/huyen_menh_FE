@@ -53,78 +53,111 @@
 
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div
-        v-for="j in journals"
-        :key="j.id"
-        class="journal-card group bg-black/40 border border-gold/20 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-500 flex flex-col shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
-      >
+      <div v-for="j in journals" :key="j.id"
+            class="animated-border-card group cursor-pointer h-full"
+            @click="viewDetail(j)">
 
-        <div class="p-5 flex justify-between items-start border-b border-gold/10 bg-white/5">
-           <div class="flex flex-col">
-              <span class="text-[10px] uppercase tracking-[0.2em] text-gold-light opacity-60">{{ formatDate(j.createdAt, 'time') }}</span>
-              <span class="text-sm font-serif font-bold text-white/90">{{ formatDate(j.createdAt, 'date') }}</span>
-           </div>
+         <div class="inner-card-content !bg-[#0F172A]/40 !border-white/10 group-hover:!border-gold/30 relative flex flex-col h-full overflow-hidden">
+            <div class="p-5 flex items-start justify-between">
+               <div class="flex flex-col">
+                  <span class="text-[10px] text-gold/60 font-medium uppercase tracking-[0.2em] mb-1">
+                     {{ formatDate(j.createdAt, 'date') }}
+                  </span>
+                  <div class="flex items-center gap-2">
+                     <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+                     <span class="text-white/80 text-[10px] font-bold tracking-widest uppercase">
+                        {{ formatDate(j.createdAt, 'time') }}
+                     </span>
+                  </div>
+               </div>
 
-           <div class="flex items-center gap-2">
-              <div v-if="j.tarotCardId" class="w-6 h-6 rounded bg-purple-500/20 flex items-center justify-center text-purple-400 border border-purple-500/30" title="Tarot">
-                <span class="text-[10px] font-bold">T</span>
-              </div>
-              <div v-if="j.ichingHexId" class="w-6 h-6 rounded bg-orange-500/20 flex items-center justify-center text-orange-400 border border-orange-500/30" title="Kinh Dịch">
-                <span class="text-[10px] font-bold">K</span>
-              </div>
-           </div>
-        </div>
+               <div class="flex gap-2">
+                  <div v-if="j.tarotCardId" class="w-6 h-6 rounded bg-purple-500/10 flex items-center justify-center text-purple-400 border border-purple-500/20" title="Tarot">
+                    <span class="text-[9px] font-black">T</span>
+                  </div>
+                  <div v-if="j.ichingHexId" class="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center text-orange-400 border border-orange-500/20" title="Kinh Dịch">
+                    <span class="text-[9px] font-black">K</span>
+                  </div>
+               </div>
+            </div>
 
-
-        <div class="p-5 flex-1 space-y-4">
-           <div class="space-y-1">
-              <h3 class="text-gold font-serif uppercase tracking-wider text-xs font-bold truncate">{{ j.question || 'Suy ngẫm tự do' }}</h3>
-              <p class="text-white/60 text-xs line-clamp-3 leading-relaxed italic">
-                 {{ j.userNotes || j.aiInsight || 'Không có ghi chú...' }}
-              </p>
-           </div>
-
-
-           <div v-if="j.mentalEnergy" class="flex gap-1 h-1 w-full rounded-full overflow-hidden bg-white/5">
-              <div class="h-full bg-blue-400" :style="{ width: j.mentalEnergy + '%' }"></div>
-              <div class="h-full bg-rose-400" :style="{ width: j.emotionalBalance + '%' }"></div>
-              <div class="h-full bg-emerald-400" :style="{ width: j.focusLevel + '%' }"></div>
-           </div>
-        </div>
+            <div class="p-5 flex-1 space-y-4">
+               <div class="space-y-1">
+                  <h3 class="text-gold font-serif uppercase tracking-wider text-xs font-bold truncate">{{ j.question || 'Suy ngẫm tự do' }}</h3>
+                  <p class="text-white/60 text-xs line-clamp-3 leading-relaxed italic">
+                     {{ j.userNotes || j.aiInsight || 'Không có ghi chú...' }}
+                  </p>
+               </div>
 
 
-        <div class="p-4 flex items-center justify-between border-t border-gold/10 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
-           <button @click="viewDetail(j)" class="text-[10px] uppercase tracking-widest text-gold hover:text-white transition-colors">Xem Chi Tiết</button>
-           <div class="flex items-center gap-3">
+               <!-- Mystic Energy Indicators (Enhanced) -->
+               <div v-if="j.mentalEnergy !== null && j.mentalEnergy !== undefined" class="space-y-2 mt-4">
+                  <div class="flex items-center justify-between text-[8px] uppercase tracking-tighter font-black opacity-60">
+                    <span class="text-blue-400 drop-shadow-[0_0_3px_rgba(96,165,250,0.5)]">Tinh thần</span>
+                    <span class="text-rose-400 drop-shadow-[0_0_3px_rgba(248,113,113,0.5)]">Cảm xúc</span>
+                    <span class="text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.5)]">Tập trung</span>
+                  </div>
+                  <div class="flex gap-1.5 h-2 w-full rounded-full overflow-hidden bg-white/5 shadow-[inset_0_1px_4px_rgba(0,0,0,0.5)]">
+                    <div class="h-full bg-gradient-to-r from-blue-600 to-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.6)] transition-all duration-1000" :style="{ width: (j.mentalEnergy || 0) + '%', minWidth: '2px' }"></div>
+                    <div class="h-full bg-gradient-to-r from-rose-600 to-rose-400 shadow-[0_0_10px_rgba(248,113,113,0.6)] transition-all duration-1000" :style="{ width: (j.emotionalBalance || 0) + '%', minWidth: '2px' }"></div>
+                    <div class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)] transition-all duration-1000" :style="{ width: (j.focusLevel || 0) + '%', minWidth: '2px' }"></div>
+                  </div>
+               </div>
+            </div>
 
-              <button @click.stop="openEditModal(j)" class="text-white/40 hover:text-gold transition-colors" title="Chỉnh sửa">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-width="2"/></svg>
-              </button>
-              <button @click.stop="confirmDelete(j)" class="text-white/40 hover:text-red-400 transition-colors" title="Xóa">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2"/></svg>
-              </button>
-           </div>
-        </div>
+
+            <div class="p-4 flex items-center justify-between border-t border-gold/10 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+               <button @click.stop="viewDetail(j)" class="text-[10px] uppercase tracking-widest text-gold hover:text-white transition-colors">Xem Chi Tiết</button>
+               <div class="flex items-center gap-3">
+
+                  <button @click.stop="openEditModal(j)" class="text-white/40 hover:text-gold transition-colors" title="Chỉnh sửa">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-width="2"/></svg>
+                  </button>
+                  <button @click.stop="confirmDelete(j)" class="text-white/40 hover:text-red-400 transition-colors" title="Xóa">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2"/></svg>
+                  </button>
+               </div>
+            </div>
+         </div>
       </div>
     </div>
 
 
-    <div v-if="totalPages > 1" class="flex justify-center gap-4 mt-12">
-      <button
-        @click="currentPage--"
+    <!-- Pagination Mystic Gold -->
+    <div v-if="totalPages > 0" class="flex justify-center items-center gap-6 mt-12 py-6 uppercase">
+      <!-- First Page -->
+      <button 
+        @click="currentPage = 0" 
         :disabled="currentPage === 0"
-        class="p-2 border border-gold/30 rounded-full text-gold disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gold/10"
-      >
-        <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2"/></svg>
-      </button>
-      <span class="flex items-center text-gold font-serif">{{ currentPage + 1 }} / {{ totalPages }}</span>
-      <button
-        @click="currentPage++"
+        class="text-gold hover:text-gold-light disabled:opacity-20 transition-all font-black text-xl"
+      >«</button>
+      
+      <!-- Page Numbers -->
+      <div class="flex items-center gap-2">
+        <template v-for="p in totalPages" :key="p">
+          <button 
+            v-if="Math.abs(p - 1 - currentPage) < 3 || p === 1 || p === totalPages"
+            @click="currentPage = p - 1"
+            :class="[
+              'min-w-[40px] h-[40px] flex items-center justify-center text-sm font-bold transition-all duration-300',
+              currentPage === p - 1 
+                ? 'bg-gold text-black rounded-lg shadow-[0_4px_15px_rgba(255,184,0,0.3)]' 
+                : 'text-gold-light/60 hover:text-gold'
+            ]"
+          >
+            {{ p }}
+          </button>
+          <span v-else-if="p === 2 && currentPage > 3" class="text-gold/30">...</span>
+          <span v-else-if="p === totalPages - 1 && currentPage < totalPages - 4" class="text-gold/30">...</span>
+        </template>
+      </div>
+
+      <!-- Last Page -->
+      <button 
+        @click="currentPage = totalPages - 1" 
         :disabled="currentPage >= totalPages - 1"
-        class="p-2 border border-gold/30 rounded-full text-gold disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gold/10"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2"/></svg>
-      </button>
+        class="text-gold hover:text-gold-light disabled:opacity-20 transition-all font-black text-xl"
+      >»</button>
     </div>
 
 
@@ -162,6 +195,73 @@
                   <span class="text-orange-400 text-[10px] uppercase tracking-[0.2em] font-sans font-black mb-1">Kinh Dịch</span>
                   <span class="text-white font-serif text-xl tracking-wide">{{ selectedJournal.ichingSnapshot }}</span>
                 </div>
+
+              </div>
+
+              <!-- Inner Energy Map (Sacred Indicators) -->
+              <div class="bg-white/[0.03] border border-gold/20 rounded-2xl p-8 space-y-6 shadow-[0_0_30px_rgba(255,184,0,0.05)] animate-fade-in">
+                 <div class="flex items-center justify-center gap-4">
+                    <div class="h-[1px] w-12 bg-gradient-to-r from-transparent via-gold/40 to-transparent"></div>
+                    <h5 class="text-gold text-[10px] uppercase tracking-[0.5em] font-black drop-shadow-[0_0_5px_gold]">Bản đồ Năng lượng Nội tại</h5>
+                    <div class="h-[1px] w-12 bg-gradient-to-r from-transparent via-gold/40 to-transparent"></div>
+                 </div>
+
+                 <div v-if="selectedJournal.mentalEnergy !== null && selectedJournal.mentalEnergy !== undefined" class="grid grid-cols-2 gap-x-10 gap-y-6">
+                    <!-- Mental -->
+                    <div class="space-y-2 group">
+                       <div class="flex justify-between text-[11px] items-center">
+                          <span class="text-white/80 font-serif italic group-hover:text-blue-400 transition-all duration-300">Tinh thần</span>
+                          <span class="text-blue-400 font-bold drop-shadow-[0_0_5px_rgba(96,165,250,0.5)]">{{ selectedJournal.mentalEnergy }}%</span>
+                       </div>
+                       <div class="h-1.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                          <div class="h-full bg-gradient-to-r from-blue-700 to-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-1000" :style="{ width: selectedJournal.mentalEnergy + '%' }"></div>
+                       </div>
+                    </div>
+                    <!-- Emotional -->
+                    <div class="space-y-2 group">
+                       <div class="flex justify-between text-[11px] items-center">
+                          <span class="text-white/80 font-serif italic group-hover:text-rose-400 transition-all duration-300">Cảm xúc</span>
+                          <span class="text-rose-400 font-bold drop-shadow-[0_0_5px_rgba(244,63,94,0.5)]">{{ selectedJournal.emotionalBalance }}%</span>
+                       </div>
+                       <div class="h-1.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                          <div class="h-full bg-gradient-to-r from-rose-700 to-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.5)] transition-all duration-1000" :style="{ width: selectedJournal.emotionalBalance + '%' }"></div>
+                       </div>
+                    </div>
+                    <!-- Focus -->
+                    <div class="space-y-2 group">
+                       <div class="flex justify-between text-[11px] items-center">
+                          <span class="text-white/80 font-serif italic group-hover:text-emerald-400 transition-all duration-300">Tập trung</span>
+                          <span class="text-emerald-400 font-bold drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]">{{ selectedJournal.focusLevel }}%</span>
+                       </div>
+                       <div class="h-1.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                          <div class="h-full bg-gradient-to-r from-emerald-700 to-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-1000" :style="{ width: selectedJournal.focusLevel + '%' }"></div>
+                       </div>
+                    </div>
+                    <!-- Action -->
+                    <div class="space-y-2 group">
+                       <div class="flex justify-between text-[11px] items-center">
+                          <span class="text-white/80 font-serif italic group-hover:text-amber-400 transition-all duration-300">Hành động</span>
+                          <span class="text-amber-400 font-bold drop-shadow-[0_0_5px_rgba(245,158,11,0.5)]">{{ selectedJournal.actionReadiness }}%</span>
+                       </div>
+                       <div class="h-1.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                          <div class="h-full bg-gradient-to-r from-amber-700 to-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-1000" :style="{ width: selectedJournal.actionReadiness + '%' }"></div>
+                       </div>
+                    </div>
+                    <!-- Social -->
+                    <div class="space-y-2 col-span-2 group">
+                       <div class="flex justify-between text-[11px] items-center">
+                          <span class="text-white/80 font-serif italic group-hover:text-purple-400 transition-all duration-300">Hòa hợp xã hội</span>
+                          <span class="text-purple-400 font-bold drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]">{{ selectedJournal.socialHarmony }}%</span>
+                       </div>
+                       <div class="h-1.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                          <div class="h-full bg-gradient-to-r from-purple-700 to-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-all duration-1000" :style="{ width: selectedJournal.socialHarmony + '%' }"></div>
+                       </div>
+                    </div>
+                 </div>
+                 
+                 <div v-else class="text-center py-4">
+                    <p class="text-white/20 text-[10px] uppercase tracking-widest italic">Dữ liệu năng lượng chưa được ghi lại cho bản ghi này</p>
+                 </div>
               </div>
 
 
@@ -211,12 +311,7 @@
                      <textarea v-model="editingJournal.notes" rows="6" class="w-full bg-white/5 border border-gold/20 rounded-2xl py-4 px-6 text-white text-sm leading-relaxed font-sans focus:outline-none focus:border-gold transition-all resize-none" placeholder="Viết những suy ngẫm của bạn..."></textarea>
                   </div>
 
-                  <div v-if="!editingJournal.id" class="flex items-center gap-3 px-4">
-                     <div class="relative flex items-center">
-                       <input type="checkbox" v-model="editingJournal.linkEnergy" id="linkEnergy" class="w-5 h-5 accent-gold bg-black border-gold/20 rounded-lg cursor-pointer">
-                     </div>
-                     <label for="linkEnergy" class="text-white/60 text-xs cursor-pointer hover:text-gold transition-colors">Liên kết với năng lượng hiện tại</label>
-                  </div>
+
                </div>
 
                 <div class="flex flex-col gap-3 pt-6">
@@ -232,7 +327,15 @@
        </Transition>
     </Teleport>
 
-
+    <SpiritualConfirm 
+      v-model:show="showDeleteConfirm"
+      title="Xóa Trang Nhật Ký?"
+      message="Hành động này sẽ xóa vĩnh viễn trang nhật ký khỏi dòng thời gian của bạn và không thể khôi phục."
+      confirm-text="XÁC NHẬN XÓA"
+      type="danger"
+      icon="fi fi-rr-trash"
+      @confirm="handleDeleteConfirm"
+    />
   </div>
 </template>
 
@@ -241,6 +344,7 @@ import { ref, watch, onMounted } from 'vue';
 
 import api from '@/services/api';
 import { cosmicToast as toast } from '@/utils/toast';
+import SpiritualConfirm from '@/components/common/SpiritualConfirm.vue';
 
 const journals = ref([]);
 const loading = ref(false);
@@ -253,14 +357,14 @@ const totalPages = ref(1);
 
 const selectedJournal = ref(null);
 const editingJournal = ref(null);
+const showDeleteConfirm = ref(false);
+const journalToDelete = ref(null);
 
 const energyLabels = {
-  'Tinh thần': 'mentalEnergy',
-  'Cân bằng': 'emotionalBalance',
-  'Tập trung': 'focusLevel',
-  'Hành động': 'actionReadiness',
   'Hòa hợp': 'socialHarmony'
 };
+
+
 
 const fetchJournals = async () => {
   loading.value = true;
@@ -297,20 +401,13 @@ const clearFilters = () => {
 
 watch(currentPage, fetchJournals);
 
-const openCreateModal = () => {
-  editingJournal.value = {
-    question: '',
-    notes: '',
-    linkEnergy: true
-  };
-};
 
 const openEditModal = (j) => {
   selectedJournal.value = null;
   editingJournal.value = {
     id: j.id,
     question: j.question,
-    notes: j.userNotes
+    notes: j.userNotes,
   };
 };
 
@@ -322,20 +419,15 @@ const saveJournal = async () => {
 
   saving.value = true;
   try {
-    if (editingJournal.value.id) {
-      await api.put(`/journal/${editingJournal.value.id}`, {
-        notes: editingJournal.value.notes,
-        question: editingJournal.value.question
-      });
-      toast.success('Cập nhật nhật ký tâm linh thành công');
-    } else {
-      await api.post('/journal/create', editingJournal.value);
-      toast.success('Hành trình của bạn đã được ghi lại');
-    }
+    await api.put(`/journal/${editingJournal.value.id}`, {
+      notes: editingJournal.value.notes,
+      question: editingJournal.value.question,
+    });
+    toast.success('Chiêm nghiệm của bạn đã được ghi lại');
     editingJournal.value = null;
     fetchJournals();
   } catch (error) {
-    toast.error('Lỗi khi lưu nhật ký');
+    toast.error('Lỗi khi lưu chiêm nghiệm');
   } finally {
     saving.value = false;
   }
@@ -345,16 +437,24 @@ const viewDetail = (j) => {
   selectedJournal.value = j;
 };
 
-const confirmDelete = async (j) => {
-  if (confirm('Bạn có chắc muốn xóa vĩnh viễn trang nhật ký này khỏi dòng thời gian?')) {
-    try {
-      await api.delete(`/journal/${j.id}`);
-      toast.success('Đã xóa nhật ký');
-      if (selectedJournal.value?.id === j.id) selectedJournal.value = null;
-      fetchJournals();
-    } catch (error) {
-      toast.error('Lỗi khi xóa nhật ký');
-    }
+const confirmDelete = (j) => {
+  journalToDelete.value = j;
+  showDeleteConfirm.value = true;
+};
+
+const handleDeleteConfirm = async () => {
+  const j = journalToDelete.value;
+  if (!j) return;
+  
+  try {
+    await api.delete(`/journal/${j.id}`);
+    toast.success('Đã xóa nhật ký khỏi dòng thời gian');
+    if (selectedJournal.value?.id === j.id) selectedJournal.value = null;
+    fetchJournals();
+  } catch (error) {
+    toast.error('Gặp nhiễu loạn khi xóa nhật ký');
+  } finally {
+    journalToDelete.value = null;
   }
 };
 

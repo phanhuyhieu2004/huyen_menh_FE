@@ -13,41 +13,41 @@
         <div class="absolute inset-0 z-0 animate-spin-slow">
 
           <div class="absolute top-1/2 left-1/2 w-12 h-12 md:w-32 md:h-32 -ml-6 -mt-6 md:-ml-16 md:-mt-16 orbit-item" style="--angle: 45deg; animation-delay: 0.1s;">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078984/ChatGPT_Image_15_19_12_13_thg_2_2026_aes1f8.png" alt="Icon 1" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078984/ChatGPT_Image_15_19_12_13_thg_2_2026_aes1f8.png', { width: 128 })" alt="Icon 1" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
           </div>
 
           <div class="absolute top-1/2 left-1/2 w-12 h-12 md:w-32 md:h-32 -ml-6 -mt-6 md:-ml-16 md:-mt-16 orbit-item" style="--angle: 90deg; animation-delay: 0.2s;">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078982/ChatGPT_Image_15_14_58_13_thg_2_2026_cffntg.png" alt="Icon 2" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078982/ChatGPT_Image_15_14_58_13_thg_2_2026_cffntg.png', { width: 128 })" alt="Icon 2" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
           </div>
 
           <div class="absolute top-1/2 left-1/2 w-12 h-12 md:w-32 md:h-32 -ml-6 -mt-6 md:-ml-16 md:-mt-16 orbit-item" style="--angle: 135deg; animation-delay: 0.3s;">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078981/ChatGPT_Image_15_15_13_13_thg_2_2026_acvkwn.png" alt="Icon 3" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078981/ChatGPT_Image_15_15_13_13_thg_2_2026_acvkwn.png', { width: 128 })" alt="Icon 3" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
           </div>
 
           <div class="absolute top-1/2 left-1/2 w-12 h-12 md:w-32 md:h-32 -ml-6 -mt-6 md:-ml-16 md:-mt-16 orbit-item" style="--angle: 180deg; animation-delay: 0.4s;">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078980/ChatGPT_Image_15_15_03_13_thg_2_2026_uxdugc.png" alt="Icon 4" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078980/ChatGPT_Image_15_15_03_13_thg_2_2026_uxdugc.png', { width: 128 })" alt="Icon 4" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
           </div>
 
           <div class="absolute top-1/2 left-1/2 w-12 h-12 md:w-32 md:h-32 -ml-6 -mt-6 md:-ml-16 md:-mt-16 orbit-item" style="--angle: 225deg; animation-delay: 0.5s;">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078978/ChatGPT_Image_15_14_33_13_thg_2_2026_varore.png" alt="Icon 5" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078978/ChatGPT_Image_15_14_33_13_thg_2_2026_varore.png', { width: 128 })" alt="Icon 5" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
           </div>
 
           <div class="absolute top-1/2 left-1/2 w-12 h-12 md:w-32 md:h-32 -ml-6 -mt-6 md:-ml-16 md:-mt-16 orbit-item" style="--angle: 270deg; animation-delay: 0.6s;">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078977/ChatGPT_Image_15_14_16_13_thg_2_2026_eeuayo.png" alt="Icon 6" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078977/ChatGPT_Image_15_14_16_13_thg_2_2026_eeuayo.png', { width: 128 })" alt="Icon 6" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
           </div>
 
           <div class="absolute top-1/2 left-1/2 w-12 h-12 md:w-32 md:h-32 -ml-6 -mt-6 md:-ml-16 md:-mt-16 orbit-item" style="--angle: 315deg; animation-delay: 0.7s;">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078973/ChatGPT_Image_15_13_54_13_thg_2_2026_zcicyz.png" alt="Icon 7" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078973/ChatGPT_Image_15_13_54_13_thg_2_2026_zcicyz.png', { width: 128 })" alt="Icon 7" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
           </div>
 
           <div class="absolute top-1/2 left-1/2 w-12 h-12 md:w-32 md:h-32 -ml-6 -mt-6 md:-ml-16 md:-mt-16 orbit-item" style="--angle: 360deg; animation-delay: 0.8s;">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078985/ChatGPT_Image_15_14_11_13_thg_2_2026_xfmjec.png" alt="Icon 8" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078985/ChatGPT_Image_15_14_11_13_thg_2_2026_xfmjec.png', { width: 128 })" alt="Icon 8" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255, 184, 0,0.6)] animate-reverse-spin-slow" loading="lazy">
           </div>
         </div>
 
 
         <div class="absolute inset-0 flex items-center justify-center animate-mandala-entrance z-10">
-          <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772078973/ChatGPT_Image_10_26_18_13_thg_2_2026_mc8dn3.png" alt="Mandala Center" class="w-48 h-48 md:w-80 md:h-80 object-contain animate-spin-extremely-slow drop-shadow-[0_0_15px_rgba(255, 184, 0,0.8)]" loading="lazy">
+          <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772078973/ChatGPT_Image_10_26_18_13_thg_2_2026_mc8dn3.png', { width: 400 })" alt="Mandala Center" class="w-48 h-48 md:w-80 md:h-80 object-contain animate-spin-extremely-slow drop-shadow-[0_0_15px_rgba(255, 184, 0,0.8)]" loading="lazy">
         </div>
 
       </div>
@@ -81,7 +81,7 @@
       <div class="animated-border-card group cursor-pointer">
         <div class="inner-card-content items-center justify-center text-center p-8">
           <div class="h-28 flex items-center justify-center mb-6 relative">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772088191/ChatGPT_Image_13_42_43_26_thg_2_2026_ll4rvz.png" alt="Tarot Icon" class="w-48 h-48 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255, 184, 0,0.5)] z-10 relative" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772088191/ChatGPT_Image_13_42_43_26_thg_2_2026_ll4rvz.png', { width: 256 })" alt="Tarot Icon" class="w-48 h-48 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255, 184, 0,0.5)] z-10 relative" loading="lazy">
           </div>
           <h3 class="text-xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark mb-3 text-center glowing-text-gold-hover transition-all">Tarot Phương Tây</h3>
           <p class="text-sm font-sans text-white/90 text-center leading-relaxed">Giải mã bí ẩn qua từng lá bài</p>
@@ -92,7 +92,7 @@
       <div class="animated-border-card group cursor-pointer">
         <div class="inner-card-content items-center justify-center text-center p-8">
           <div class="h-28 flex items-center justify-center mb-6 relative">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772088190/ChatGPT_Image_13_42_38_26_thg_2_2026_yae0jd.png" alt="Kinh Dịch Icon" class="w-48 h-48  object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255, 184, 0,0.5)] z-10 relative" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772088190/ChatGPT_Image_13_42_38_26_thg_2_2026_yae0jd.png', { width: 256 })" alt="Kinh Dịch Icon" class="w-48 h-48  object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255, 184, 0,0.5)] z-10 relative" loading="lazy">
           </div>
           <h3 class="text-xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark mb-3 text-center glowing-text-gold-hover transition-all">Kinh Dịch Phương Đông</h3>
           <p class="text-sm font-sans text-white/90 text-center leading-relaxed">Khám phá minh triết cổ xưa</p>
@@ -103,7 +103,7 @@
       <div class="animated-border-card group cursor-pointer">
         <div class="inner-card-content items-center justify-center text-center p-8">
           <div class="h-28 flex items-center justify-center mb-6 relative">
-            <img src="https://res.cloudinary.com/drac9ko3l/image/upload/v1772088190/ChatGPT_Image_13_42_32_26_thg_2_2026_byqwzk.png" alt="AI Icon" class="w-48 h-48  object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255, 184, 0,0.5)] z-10 relative" loading="lazy">
+            <img :src="optimizeCloudinaryUrl('https://res.cloudinary.com/drac9ko3l/image/upload/v1772088190/ChatGPT_Image_13_42_32_26_thg_2_2026_byqwzk.png', { width: 256 })" alt="AI Icon" class="w-48 h-48  object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255, 184, 0,0.5)] z-10 relative" loading="lazy">
           </div>
           <h3 class="text-xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark mb-3 text-center leading-snug glowing-text-gold-hover transition-all">AI Cá Nhân Hóa<br/>Từ Ngày Sinh</h3>
           <p class="text-sm font-sans text-white/90 text-center leading-relaxed">Phân tích vận mệnh chính xác</p>
@@ -113,31 +113,14 @@
     </div>
 
 
-    <footer class="w-full pb-6 pt-10 border-t border-gold/40 shadow-[0_-5px_15px_rgba(255, 184, 0,0.15)] flex flex-col items-center justify-center text-sm md:text-base font-sans text-white/90 gap-4 mt-auto">
-      <div class="flex items-center gap-6 md:gap-8 tracking-widest font-medium">
-        <a href="#" class="hover:text-gold hover:drop-shadow-[0_0_8px_rgba(255, 184, 0,0.8)] transition-all duration-300">VỀ CHÚNG TÔI</a>
-
-
-        <span class="w-[2px] h-4 bg-gold drop-shadow-[0_0_5px_rgba(255, 184, 0,0.8)]"></span>
-
-        <a href="#" class="hover:text-gold hover:drop-shadow-[0_0_8px_rgba(255, 184, 0,0.8)] transition-all duration-300">CHÍNH SÁCH</a>
-
-
-        <span class="w-[2px] h-4 bg-gold drop-shadow-[0_0_5px_rgba(255, 184, 0,0.8)]"></span>
-
-        <a href="#" class="hover:text-gold hover:drop-shadow-[0_0_8px_rgba(255, 184, 0,0.8)] transition-all duration-300">LIÊN HỆ</a>
-      </div>
-      <div class="tracking-[0.2em] text-white/60 text-xs md:text-sm mt-2">
-        © 2026 HUYỀN MỆNH. Tinh Hoa Vũ Trụ.
-      </div>
-    </footer>
-
+    <!-- Footer removed as it is now global -->
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import { optimizeCloudinaryUrl } from '@/utils/spiritualCalc';
 
 const router = useRouter();
 
