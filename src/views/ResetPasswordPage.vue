@@ -11,7 +11,7 @@
                 class="w-20 h-20 object-contain drop-shadow-[0_0_12px_rgba(255,184,0,0.5)]"
                 alt="Mystic Icon" />
         </div>
-        <h2 class="text-2xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-b from-gold-light via-gold to-gold-dark tracking-tight">
+        <h2 class="text-2xl md:text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-b from-gold-light via-gold to-gold-dark tracking-tight">
           Mật Khẩu Mới
         </h2>
         <p class="text-white/40 text-[11px] font-medium leading-relaxed max-w-[240px] mx-auto">Thiết lập lại chìa khóa truy cập tâm linh</p>

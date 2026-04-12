@@ -127,7 +127,7 @@
     <div v-if="totalPages > 0" class="flex justify-center items-center gap-6 mt-12 py-6 uppercase">
       <!-- First Page -->
       <button 
-        @click="currentPage = 0" 
+        @click="changePage(0)" 
         :disabled="currentPage === 0"
         class="text-gold hover:text-gold-light disabled:opacity-20 transition-all font-black text-xl"
       >«</button>
@@ -137,7 +137,7 @@
         <template v-for="p in totalPages" :key="p">
           <button 
             v-if="Math.abs(p - 1 - currentPage) < 3 || p === 1 || p === totalPages"
-            @click="currentPage = p - 1"
+            @click="changePage(p - 1)"
             :class="[
               'min-w-[40px] h-[40px] flex items-center justify-center text-sm font-bold transition-all duration-300',
               currentPage === p - 1 
@@ -154,7 +154,7 @@
 
       <!-- Last Page -->
       <button 
-        @click="currentPage = totalPages - 1" 
+        @click="changePage(totalPages - 1)" 
         :disabled="currentPage >= totalPages - 1"
         class="text-gold hover:text-gold-light disabled:opacity-20 transition-all font-black text-xl"
       >»</button>
@@ -350,7 +350,6 @@ const journals = ref([]);
 const loading = ref(false);
 const saving = ref(false);
 const searchKeyword = ref('');
-const filterType = ref('');
 const filterDate = ref('');
 const currentPage = ref(0);
 const totalPages = ref(1);
@@ -374,12 +373,13 @@ const fetchJournals = async () => {
         page: currentPage.value,
         size: 9,
         keyword: searchKeyword.value,
-        type: filterType.value,
         date: filterDate.value
       }
     });
-    journals.value = res.data.content;
-    totalPages.value = res.data.totalPages;
+    journals.value = res.data.content || res.data;
+    console.log("=== API /journal/list RESPONSE ===", res.data);
+    totalPages.value = res.data.page?.totalPages ?? res.data.totalPages ?? 1;
+    console.log("Loaded Total Pages:", totalPages.value);
   } catch (error) {
     toast.error('Không thể tải nhật ký');
   } finally {
@@ -394,9 +394,13 @@ const resetAndFetch = () => {
 
 const clearFilters = () => {
   searchKeyword.value = '';
-  filterType.value = '';
   filterDate.value = '';
   resetAndFetch();
+};
+
+const changePage = (page) => {
+  currentPage.value = page;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 watch(currentPage, fetchJournals);

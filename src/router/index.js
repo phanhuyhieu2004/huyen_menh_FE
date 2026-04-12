@@ -60,7 +60,6 @@ const routes = [
             { path: 'journal', component: () => import('@/views/JournalPage.vue') },
             { path: 'library', component: () => import('@/views/LibraryPage.vue') },
             { path: 'settings', name: 'Settings', component: () => import('@/views/SettingsPage.vue') },
-            { path: 'admin/stats', component: () => import('@/views/AdminStatsPage.vue'), meta: { requiresAdmin: true } }
         ]
     }
 ];

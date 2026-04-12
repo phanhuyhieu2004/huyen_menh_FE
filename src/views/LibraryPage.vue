@@ -291,13 +291,13 @@ const fetchLibrary = async () => {
     const res = await api.get('/library/list', {
       params: {
         page: currentPage.value,
-        size: 12,
+        size: 8,
         type: activeTab.value,
         keyword: searchKeyword.value
       }
     });
-    items.value = res.data.content || [];
-    totalPages.value = res.data.page?.totalPages ?? res.data.totalPages ?? 0;
+    items.value = res.data.content || res.data || [];
+    totalPages.value = res.data.page?.totalPages ?? res.data.totalPages ?? 1;
   } catch (error) {
     console.error('Lỗi khi tải thư viện:', error);
   } finally {

@@ -6,9 +6,9 @@ import { cosmicToast as toast } from '@/utils/toast';
 const currentTimezone = moment.tz.guess();
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: import.meta.env.VITE_API_URL || '/api',
     headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
     },
 });
 
@@ -55,7 +55,12 @@ api.interceptors.response.use(
                 toast.error(errorMsg);
             } else {
                 console.error('INTERCEPTOR: 401 Không có quyền truy cập:', error.config.url);
-                toast.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+                // Nếu backend gửi về văn bản chứa lỗi cụ thể, ưu tiên hiển thị nó thay vì mặc định
+                if (typeof errorMsg === 'string' && errorMsg.length > 0 && errorMsg !== 'Lỗi kết nối máy chủ' && errorMsg !== 'Unauthorized') {
+                    toast.error(errorMsg);
+                } else {
+                    toast.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+                }
                 const authStore = useAuthStore();
                 authStore.logout();
             }

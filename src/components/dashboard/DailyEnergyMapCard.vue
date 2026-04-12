@@ -1,4 +1,4 @@
-```html
+
 <template>
     <DashboardCard title="Năng Lượng Hôm Nay" contentClass="w-full flex flex-col items-center">
         <template #header-actions>

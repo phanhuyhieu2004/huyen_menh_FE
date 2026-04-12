@@ -138,7 +138,7 @@ export function getDailyHexagram(dobDateStr) {
 export function optimizeCloudinaryUrl(url, options = {}) {
     if (!url || !url.includes('cloudinary.com')) return url;
 
-    const params = ['f_auto', 'q_auto'];
+    const params = ['f_auto', 'q_auto:eco'];
 
     if (options.width) params.push(`w_${options.width}`);
     if (options.height) params.push(`h_${options.height}`);

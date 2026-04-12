@@ -113,19 +113,23 @@ const checkEnergy = async () => {
     }
 }
 
+import { optimizeCloudinaryUrl } from '@/utils/spiritualCalc';
+
 onMounted(() => {
     checkEnergy();
 });
 
 const getStoneUrl = (element) => {
+    let url = '';
     switch(element) {
-        case 'Mộc': return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291655/ChatGPT_Image_21_54_37_28_thg_2_2026_zodhqx.png';
-        case 'Hỏa': return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291670/ChatGPT_Image_21_54_43_28_thg_2_2026_dojlmy.png';
-        case 'Thổ': return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291692/ChatGPT_Image_21_54_51_28_thg_2_2026_iektlf.png';
-        case 'Kim': return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291714/ChatGPT_Image_22_03_06_28_thg_2_2026_zz4lr6.png';
-        case 'Thủy': return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291713/ChatGPT_Image_22_03_01_28_thg_2_2026_ifee24.png';
-        default: return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291692/ChatGPT_Image_21_54_51_28_thg_2_2026_iektlf.png';
+        case 'Mộc': url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291655/ChatGPT_Image_21_54_37_28_thg_2_2026_zodhqx.png'; break;
+        case 'Hỏa': url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291670/ChatGPT_Image_21_54_43_28_thg_2_2026_dojlmy.png'; break;
+        case 'Thổ': url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291692/ChatGPT_Image_21_54_51_28_thg_2_2026_iektlf.png'; break;
+        case 'Kim': url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291714/ChatGPT_Image_22_03_06_28_thg_2_2026_zz4lr6.png'; break;
+        case 'Thủy': url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291713/ChatGPT_Image_22_03_01_28_thg_2_2026_ifee24.png'; break;
+        default: url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772291692/ChatGPT_Image_21_54_51_28_thg_2_2026_iektlf.png'; break;
     }
+    return optimizeCloudinaryUrl(url, { width: 48 });
 };
 
 const getTextColorClass = (element) => {
@@ -153,17 +157,21 @@ const getLabelGlowClass = (element) => {
 const getMainImageUrl = () => {
     if (!energyData.value) return '';
     const score = energyData.value.interactionScore;
-    if (score === 15) return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296610/ChatGPT_Image_23_35_46_28_thg_2_2026_p5pbdj.png';
-    if (score === -10) return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296613/ChatGPT_Image_23_35_34_28_thg_2_2026_scjhzw.png';
-    return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296611/ChatGPT_Image_23_35_30_28_thg_2_2026_m08zel.png';
+    let url = '';
+    if (score === 15) url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296610/ChatGPT_Image_23_35_46_28_thg_2_2026_p5pbdj.png';
+    else if (score === -10) url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296613/ChatGPT_Image_23_35_34_28_thg_2_2026_scjhzw.png';
+    else url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296611/ChatGPT_Image_23_35_30_28_thg_2_2026_m08zel.png';
+    return optimizeCloudinaryUrl(url, { width: 400 });
 }
 
 const getBackgroundImage = () => {
     if (!energyData.value) return '';
     const score = energyData.value.interactionScore;
-    if (score === 15) return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296610/ChatGPT_Image_23_35_46_28_thg_2_2026_p5pbdj.png';
-    if (score === -10) return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296613/ChatGPT_Image_23_35_34_28_thg_2_2026_scjhzw.png';
-    return 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296611/ChatGPT_Image_23_35_30_28_thg_2_2026_m08zel.png';
+    let url = '';
+    if (score === 15) url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296610/ChatGPT_Image_23_35_46_28_thg_2_2026_p5pbdj.png';
+    else if (score === -10) url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296613/ChatGPT_Image_23_35_34_28_thg_2_2026_scjhzw.png';
+    else url = 'https://res.cloudinary.com/drac9ko3l/image/upload/v1772296611/ChatGPT_Image_23_35_30_28_thg_2_2026_m08zel.png';
+    return optimizeCloudinaryUrl(url, { width: 800 });
 }
 
 const getImageFilterClass = () => {

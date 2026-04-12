@@ -6,7 +6,7 @@
 
 
         <div class="text-center mb-6 mt-12 z-20">
-            <h2 class="text-3xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark mb-3 tracking-wider glowing-text-gold drop-shadow-[0_0_10px_rgba(255,184,0,0.8)]">
+            <h2 class="text-2xl md:text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark mb-3 tracking-wider glowing-text-gold drop-shadow-[0_0_10px_rgba(255,184,0,0.8)]">
                 Khai Mở Thiên Mệnh
             </h2>
             <p class="text-sm md:text-base text-gold/80 font-sans tracking-[0.1em] uppercase shadow-black drop-shadow-md">

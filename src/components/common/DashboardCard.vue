@@ -6,7 +6,7 @@
 
             <div class="text-center mb-2 mt-2 relative w-full flex flex-col items-center">
                 <div class="flex items-center justify-center gap-2">
-                    <h2 class="text-xl md:text-3xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] tracking-wide">
+                    <h2 class="text-2xl md:text-3xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] tracking-wide">
                         {{ title }}
                     </h2>
                     <button v-if="$slots.info" @click="showInfoModal = true" class="relative w-7 h-7 rounded-full flex items-center justify-center border border-gold/40 text-gold bg-gold/5 hover:bg-gold/20 hover:border-gold hover:shadow-[0_0_15px_rgba(255,184,0,0.6)] transition-all duration-300 group/info" title="Tìm hiểu thêm">
@@ -73,6 +73,19 @@ const showInfoModal = ref(false);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    /* Isolate this card's paint from scroll compositing */
+    contain: layout style;
+}
+
+/* On mobile: remove backdrop-filter \u2014 it forces a full GPU composite on every scroll frame */
+@media (max-width: 767px) {
+    .animated-border-card {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(10, 8, 20, 0.85);
+        /* Own GPU layer \u2014 scroll stays smooth */
+        transform: translateZ(0);
+    }
 }
 
 @keyframes gentle-shake {

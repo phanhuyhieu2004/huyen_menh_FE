@@ -2,6 +2,108 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══ Global Mobile Scroll Performance ═══════════════════════════════════════
+   These rules are the MOST important for smooth scrolling on mobile.
+   They MUST come before everything else.
+══════════════════════════════════════════════════════════════════════════════ */
+html {
+  /* Momentum-based smooth scroll on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent the entire page from being dragged around accidentally */
+  overscroll-behavior-y: none;
+}
+
+body {
+  /* Let the browser hand off touch events to native scroll immediately */
+  touch-action: pan-y;
+  /* Prevent 300ms tap delay on all touch devices */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══ Global backdrop-filter kill switch on mobile ═══════════════════════════
+   backdrop-filter forces the browser to composite every scrolled frame
+   through a separate GPU pass — the single biggest cause of scroll jank.
+   We replace it with a solid semi-transparent bg instead.
+══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  *[class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* ── Typography: thu nhỏ tiêu đề vàng trên mobile ─────────────────────────
+     text-5xl (3rem) → 1.75rem  |  text-6xl / text-7xl → bỏ
+     text-2xl (1.5rem) → 1.125rem  |  text-3xl → 1.25rem
+     Logo "Huyền Mệnh" trên header cũng nhỏ lại
+  ─────────────────────────────────────────────────────────────────────────── */
+  .text-5xl  { font-size: 1.75rem  !important; line-height: 2rem      !important; }
+  .text-4xl  { font-size: 1.5rem   !important; line-height: 1.875rem  !important; }
+  .text-3xl  { font-size: 1.2rem   !important; line-height: 1.6rem    !important; }
+  .text-2xl  { font-size: 1.05rem  !important; line-height: 1.4rem    !important; }
+
+  /* DashboardCard title & similar h2 gold headings */
+  h1.text-2xl, h2.text-2xl, h1.text-3xl, h2.text-3xl {
+    font-size: 1.1rem  !important;
+    line-height: 1.5rem !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* Logo name in header */
+  .logo-glowing-text {
+    font-size: 0.95rem !important;
+    letter-spacing: 0.15em !important;
+    /* Kill the infinite animation — causes repaint every frame */
+    animation: none !important;
+    text-shadow: 0 0 8px rgba(255, 184, 0, 0.7) !important;
+  }
+
+  /* ── Performance: tắt các animation/effect nặng còn sót ──────────────────
+     Mọi animation chạy liên tục đều chiếm CPU/GPU và block main thread.
+  ─────────────────────────────────────────────────────────────────────────── */
+
+  /* Kill all infinite text-shadow animations (glowing-text-gold etc.) */
+  .glowing-text-gold {
+    animation: none !important;
+    text-shadow: 0 0 6px rgba(255, 184, 0, 0.6) !important;
+  }
+
+  /* Kill nav link underline pulse */
+  .nav-active::after {
+    animation: none !important;
+  }
+
+  /* Reduce all transition durations to ≤150ms — feels snappier */
+  * {
+    transition-duration: 150ms !important;
+  }
+  /* But keep transitions that explicitly need 0 (instant) */
+  [style*="transition-delay"] {
+    transition-duration: 100ms !important;
+  }
+
+  /* Kill drop-shadow on text elements (expensive filter) */
+  h1, h2, h3, h4 {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+
+  /* Kill animate-ping on mobile (abs positioned expanding ring — triggers layout) */
+  .animate-ping {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Kill animate-pulse on decorative blobs/rings */
+  .animate-pulse {
+    animation: none !important;
+  }
+
+  /* Disable will-change on static elements */
+  *:not(.bg-video):not(.animate-spin-slow):not(.animate-spin-extremely-slow):not(.animate-reverse-spin-slow) {
+    will-change: auto !important;
+  }
+}
+
 @layer components {
 
 
@@ -12,6 +114,15 @@
     border: 1px solid rgba(255, 215, 0, 0.4);
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.1);
     border-radius: 16px;
+  }
+
+  @media (max-width: 767px) {
+    .glass-panel {
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    }
   }
 
   .golden-glow {
@@ -41,6 +152,13 @@
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.05);
   }
 
+  @media (max-width: 767px) {
+    .cosmic-toast.Toastify__toast {
+      backdrop-filter: blur(5px);
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+  }
+
   .cosmic-toast .Toastify__toast-body {
     font-family: 'Cinzel', serif;
     letter-spacing: 0.02em;
@@ -67,20 +185,19 @@
   flex-direction: column;
   position: relative;
   border-radius: 1.5rem;
-
   padding: 6px;
-
-
   background: transparent;
+  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   transition: background 0.4s ease;
   z-index: 1;
+  /* Isolate painting so scroll doesn't repaint this layer */
+  contain: layout style;
 }
 
 .animated-border-card:hover {
   background: rgba(15, 15, 15, 0.5);
 }
-
 
 .animated-border-card::before {
   content: '';
@@ -88,8 +205,6 @@
   inset: 0;
   border-radius: inherit;
   padding: 2.5px;
-
-
   background: conic-gradient(from var(--angle),
       transparent 0%,
       #FFB800 15%,
@@ -109,8 +224,33 @@
   animation: spin-angle 4s linear infinite;
   pointer-events: none;
   z-index: -1;
-
   filter: drop-shadow(0 0 8px rgba(255, 184, 0, 0.8));
+  will-change: --angle;
+}
+
+/* ─── Mobile: kill ALL expensive effects on cards ─────────────────────────── */
+@media (max-width: 767px) {
+  .animated-border-card {
+    /* Remove backdrop-filter completely — biggest scroll killer */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    /* Solid dark bg instead so it still looks good */
+    background: rgba(10, 8, 20, 0.82);
+    /* Promote to its own GPU layer so scroll doesn't composite through it */
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .animated-border-card::before {
+    /* Stop the conic-gradient JS-driven animation — custom property anim is heavy */
+    animation: none;
+    background: linear-gradient(135deg, rgba(255,184,0,0.35), rgba(255,184,0,0.08));
+    filter: none;
+  }
+
+  .animated-border-card:hover {
+    background: rgba(10, 8, 20, 0.82);
+  }
 }
 
 

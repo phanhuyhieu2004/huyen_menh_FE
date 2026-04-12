@@ -53,11 +53,9 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* Scoped styles removed as they are now in GlobalHeader.vue */
 </style>
 
 <style scoped>
-/* Main content layout styles */
 .animate-fade-in {
     animation: fadeIn 0.4s ease-out;
 }

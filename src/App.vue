@@ -7,18 +7,18 @@
                 autoplay 
                 loop 
                 muted 
-                playsinline="true"
-                webkit-playsinline="true"
+                playsinline
+                webkit-playsinline
+                x5-playsinline
+                x5-video-player-type="h5"
+                x5-video-player-fullscreen="false"
                 preload="auto"
-                disablePictureInPicture="true"
-                disableRemotePlayback="true"
-                controls="false"
+                disablePictureInPicture
+                disableRemotePlayback
                 @canplay="playVideo"
-                @ended="playVideo"
-                class="absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000"
+                class="bg-video absolute inset-0 w-full h-full object-cover"
             >
                 <source src="https://res.cloudinary.com/drac9ko3l/video/upload/v1772078973/video_nebula_full_yxicgk.mp4" type="video/mp4">
-                Trình duyệt của bạn không hỗ trợ video nền.
             </video>
         </div>
 
@@ -93,9 +93,20 @@ const handleOpenLegal = (tab) => {
 };
 
 const playVideo = () => {
-    if (bgVideo.value) {
-        bgVideo.value.play().catch(error => {
-            console.warn("Autoplay was prevented on mobile/safari:", error);
+    const v = bgVideo.value;
+    if (!v) return;
+    v.muted = true; // ensure muted so autoplay policy is satisfied
+    const promise = v.play();
+    if (promise !== undefined) {
+        promise.catch(() => {
+            // Autoplay blocked — wait for first user interaction then retry once
+            const resume = () => {
+                v.play().catch(() => {});
+                document.removeEventListener('touchstart', resume);
+                document.removeEventListener('click', resume);
+            };
+            document.addEventListener('touchstart', resume, { once: true, passive: true });
+            document.addEventListener('click', resume, { once: true });
         });
     }
 };
@@ -129,6 +140,7 @@ onMounted(async () => {
 
 <style>
 
+/* ═══ Page transition ══════════════════════════════════════════════════════ */
 .page-enter-active,
 .page-leave-active {
   transition: all 0.5s ease;
@@ -146,7 +158,7 @@ onMounted(async () => {
   filter: blur(10px);
 }
 
-
+/* ═══ Animations ════════════════════════════════════════════════════════════ */
 .animate-spin-slow {
   animation: spin 3s linear infinite;
 }
@@ -165,7 +177,6 @@ onMounted(async () => {
   50% { opacity: 0.5; }
 }
 
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -176,8 +187,27 @@ onMounted(async () => {
   opacity: 0;
 }
 
-
 .glowing-text-gold {
   text-shadow: 0 0 15px rgba(255, 184, 0, 0.8), 0 0 30px rgba(204, 147, 0, 0.6);
 }
+
+/* ═══ Background video — hide ALL native browser UI ════════════════════════ */
+.bg-video {
+  /* Prevent pointer events so no tap-to-show-controls */
+  pointer-events: none;
+}
+
+/* Hide the native controls bar on all browsers */
+.bg-video::-webkit-media-controls             { display: none !important; }
+.bg-video::-webkit-media-controls-enclosure   { display: none !important; }
+.bg-video::-webkit-media-controls-panel       { display: none !important; }
+.bg-video::-webkit-media-controls-play-button { display: none !important; }
+.bg-video::-webkit-media-controls-start-playback-button { display: none !important; }
+.bg-video::-webkit-media-controls-overlay-play-button   { display: none !important; }
+/* Hide PiP / download / fullscreen buttons */
+.bg-video::-webkit-media-controls-picture-in-picture-button { display: none !important; }
+.bg-video::-webkit-media-controls-fullscreen-button         { display: none !important; }
+.bg-video::-internal-media-controls-download-button         { display: none !important; }
+/* Firefox */
+.bg-video::-moz-media-controls { display: none !important; }
 </style>

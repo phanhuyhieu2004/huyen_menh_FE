@@ -12,6 +12,21 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      },
+      '^/oauth2/authorization/.*': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      },
+      '^/login/oauth2/.*': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      }
+    }
   },
   optimizeDeps: {
     include: ['vue-sonner'],
